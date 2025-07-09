@@ -121,6 +121,11 @@ tasks {
     named("runIde") {
         dependsOn("copyInspections")
     }
+
+    // Network-sensitive tasks: run ONLY when not offline
+    matching { name in listOf("publishPlugin", "runPluginVerifier") }.configureEach {
+        onlyIf { !gradle.startParameter.isOffline }
+    }
 }
 tasks.getByName("buildSearchableOptions").onlyIf { false }
 
